@@ -1,0 +1,1 @@
+Given a matrix of 0 and 1, 0 is water, 1 is land, count how many islands are present in a given matrix. 2 pieces of land are connected vertically or horizontally.
