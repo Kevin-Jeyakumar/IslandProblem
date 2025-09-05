@@ -1,19 +1,23 @@
 def islandCount(mat):
+    for row in mat:
+        print(row)
     count = 0
-    land = set()
+    left_border, right_border , top_border, bottom_border = -1, len(mat[0]), -1, len(mat)
+    landSeen = set()
+    def traverseLand(y,x):
+        # print(f"Islands: {count}, Traversing {y}, {x}, seen: {landSeen}")
+        if y > top_border and y < bottom_border and x > left_border and x < right_border and mat[y][x] == 1 and (y,x) not in landSeen:
+            landSeen.add((y, x))
+            traverseLand(y, x - 1)
+            traverseLand(y, x + 1)
+            traverseLand(y + 1, x)
+            traverseLand(y - 1, x)
+
     for i in range(0, len(mat)):
         for j in range(0, len(mat[0])):
-            if mat[i][j] == 1:
-                land.add((i,j))
-                if (i-1,j) not in land and (i,j-1) not in land:    
-                    if i < len(mat)-1 and j < len(mat[0])-1 and mat[i+1][j] == 0 and mat[i][j+1] == 0:
-                            count += 1
-                    elif i < len(mat)-1 and mat[i+1][j] == 0:
-                            count += 1
-                    elif j < len(mat[0])-1 and mat[i][j+1] == 0:
-                            count += 1
-                    else:
-                            count += 1
+            if mat[i][j] == 1 and (i, j) not in landSeen:
+                count += 1
+                traverseLand(i, j)
     return count
 
 if __name__ == "__main__":
@@ -38,3 +42,9 @@ if __name__ == "__main__":
     [1,1],
     [1,0]]))
     # expected 1
+    print(islandCount([
+        [1, 1, 0, 0, 0],
+        [1, 1, 1, 1, 0],
+        [1, 1, 0, 0, 0],
+        [0, 0, 1, 1, 0],
+        [0, 0, 0, 0, 0]]))
